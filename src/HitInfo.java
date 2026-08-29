@@ -1,3 +1,6 @@
 public enum HitInfo {
-    MISS, HIT, SINKED
+    MISS,
+    HIT,
+    REHIT,
+    SINKED
 }

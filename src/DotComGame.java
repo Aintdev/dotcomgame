@@ -1,13 +1,17 @@
+import java.util.Scanner;
+
 public class DotComGame {
     static int BOARD_SIZE = 7;
     static int DOTCOM_SIZE = 3;
 
     private BoardNode[][] board;
     private DotCom[] dotComs;
+    private String[] names;
 
-    DotComGame(int dotComCount) {
+    DotComGame(int dotComCount, String[] names) {
         this.board = new BoardNode[BOARD_SIZE][BOARD_SIZE];
         this.dotComs = new DotCom[dotComCount];
+        this.names = names;
 
         for (int x = 0; x < BOARD_SIZE; x++) {
             for (int y = 0; y < BOARD_SIZE; y++) {
@@ -18,8 +22,49 @@ public class DotComGame {
         placeDotComsRandom();
     }
 
+    // GETTERS
+
     public BoardNode[][] getBoard() {
         return this.board;
+    }
+
+    // MAIN
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        DotComGame game = new DotComGame(3, new String[]{"name.com", "dotcom.com", "arcane.com"});
+        int tries = 0;
+        while (!game.hasWon()) {
+            System.out.print("Enter target cell: ");
+            String input = scanner.next();
+            Position pos = new Position(input);
+            HitInfo hitInfo = game.guess(pos);
+
+            tries++;
+
+            System.out.println(hitInfo.name());
+
+            if (hitInfo == HitInfo.SINKED) {
+                System.out.println("You sunk \"" + game.getBoard()[pos.x][pos.y].dotCom.getName() + "\".");
+            }
+        }
+
+        System.out.println("You won! You finished in " + Integer.toString(tries) + " tries.");
+    }
+
+    // METHODS
+
+    /**
+     * Checks if an alive DotCom's still exist.
+     * @return true if no living DotCom exists.
+     */
+    public boolean hasWon() {
+        for (DotCom dotCom : this.dotComs) {
+            if (dotCom.getState() != LivingState.DEAD) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -67,7 +112,7 @@ public class DotComGame {
      * @throws IllegalStateException If there is no more room to place the next DotCom object.
      */
     public void placeDotComsRandom() {
-        for (int i = 0; i < dotComs.length; i++) {
+        for (int i = 0; i < this.dotComs.length; i++) {
             boolean[][] tried = new boolean[BOARD_SIZE][BOARD_SIZE];
             int triedCount = 0;
             boolean notFound = true;
@@ -96,10 +141,10 @@ public class DotComGame {
                 }
 
                 if (found) {
-                    dotComs[i] = new DotCom(
+                    this.dotComs[i] = new DotCom(
                             this,
                             positions,
-                            "name.com");
+                            this.names[i]);
                     notFound = false;
                 }
 
@@ -108,5 +153,12 @@ public class DotComGame {
                 }
             }
         }
+    }
+
+    public HitInfo guess(Position pos) {
+        if (!(0 <= pos.x && pos.x < this.board.length &&
+                0 <= pos.y && pos.y < this.board[pos.x].length))
+            return HitInfo.MISS;
+        return this.board[pos.x][pos.y].hit();
     }
 }

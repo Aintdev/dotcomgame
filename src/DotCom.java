@@ -17,6 +17,7 @@ public class DotCom {
             myNodes[i] = game.getBoard()[curPos.x][curPos.y];
 
             myNodes[i].dotCom = this;
+            myNodes[i].state = LivingState.ALIVE;
         }
 
         return myNodes;
