@@ -4,9 +4,9 @@ public class DotComGame {
     static int BOARD_SIZE = 7;
     static int DOTCOM_SIZE = 3;
 
-    private BoardNode[][] board;
-    private DotCom[] dotComs;
-    private String[] names;
+    private final BoardNode[][] board;
+    private final DotCom[] dotComs;
+    private final String[] names;
 
     DotComGame(int dotComCount, String[] names) {
         this.board = new BoardNode[BOARD_SIZE][BOARD_SIZE];
@@ -44,7 +44,7 @@ public class DotComGame {
         }
     }
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         JITWarmup();
         
         Scanner scanner = new Scanner(System.in);
@@ -67,7 +67,7 @@ public class DotComGame {
             }
         }
 
-        System.out.println("You won! You finished in " + Integer.toString(tries) + " tries.");
+        System.out.println("You won! You finished in " + tries + " tries.");
     }
 
     // METHODS
@@ -90,7 +90,7 @@ public class DotComGame {
      * @param startPos The Pivot-Point of the DotCom.
      * @param dir The Direction the DotCom is facing.
      * @param length The length of the DotCom.
-     * @return All the Positions the DotCom will be inside of.
+     * @return All the Positions the DotCom will be inside.
      */
     private Position[] calculatePositions(Position startPos, Direction dir, int length) {
         Position[] positions = new Position[length];
