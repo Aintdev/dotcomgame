@@ -34,15 +34,17 @@ public class DotComGame {
         Scanner scanner = new Scanner(System.in);
         DotComGame game = new DotComGame(3, new String[]{"name.com", "dotcom.com", "arcane.com"});
         int tries = 0;
+        Timer timer = new Timer();
         while (!game.hasWon()) {
             System.out.print("Enter target cell: ");
             String input = scanner.next();
+            timer.reset();
             Position pos = new Position(input);
             HitInfo hitInfo = game.guess(pos);
 
             tries++;
 
-            System.out.println(hitInfo.name());
+            System.out.println(hitInfo.name() + " | elapsed time: " + timer.elapsedNanos() + " ns.");
 
             if (hitInfo == HitInfo.SINKED) {
                 System.out.println("You sunk \"" + game.getBoard()[pos.x][pos.y].dotCom.getName() + "\".");
