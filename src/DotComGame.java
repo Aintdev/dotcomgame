@@ -30,7 +30,23 @@ public class DotComGame {
 
     // MAIN
 
+    public static void JITWarmup() {
+        DotComGame testGame = new DotComGame(
+                3,
+                new String[]{"a", "b", "c"}
+        );
+
+        // JIT Warmup
+        for (int x = 0; x < DotComGame.BOARD_SIZE; x++) {
+            for (int y = 0; y < DotComGame.BOARD_SIZE; y++) {
+                testGame.guess(new Position(x, y));
+            }
+        }
+    }
+
     public static void main(String[] args) {
+        JITWarmup();
+        
         Scanner scanner = new Scanner(System.in);
         DotComGame game = new DotComGame(3, new String[]{"name.com", "dotcom.com", "arcane.com"});
         int tries = 0;
