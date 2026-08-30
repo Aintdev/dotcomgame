@@ -3,7 +3,7 @@ public class Position {
     public int y;
 
     public Position(String position) {
-        this.x = position.charAt(0) - 'A';
+        this.x = Character.toUpperCase(position.charAt(0)) - 'A';
         this.y = Character.getNumericValue(position.charAt(1)) - 1;
     }
     public Position(int x, int y) {
