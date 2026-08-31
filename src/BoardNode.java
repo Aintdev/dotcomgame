@@ -1,6 +1,7 @@
 public class BoardNode {
     DotCom dotCom;
     LivingState state;
+    boolean wasGuessed = false;
 
     BoardNode() {
         this.dotCom = null;
@@ -8,6 +9,7 @@ public class BoardNode {
     }
 
     public HitInfo hit() {
+        wasGuessed = true;
         if (this.dotCom == null)
             return HitInfo.MISS;
 
