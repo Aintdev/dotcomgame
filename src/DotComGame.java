@@ -195,20 +195,24 @@ public class DotComGame {
             System.out.print("\n" + (y+1) + " | ");
             for (int x = 0; x < BOARD_SIZE; x++) {
                 Color color = Color.RESET;
+                char outputChar = '.';
 
                 if (this.board[x][y].wasGuessed) {
                     color = Color.BLUE;
+                    outputChar = 'o';
                 }
 
-                if (this.board[x][y].state == LivingState.DEAD)
+                if (this.board[x][y].state == LivingState.DEAD){
                     color = Color.RED;
+                    outputChar = 'x';
+                }
 
                 Color bg = null;
 
                 if (this.board[x][y].dotCom != null && this.board[x][y].dotCom.getState() == LivingState.DEAD)
                     bg = Color.REDBG;
 
-                System.out.print(color.toString() + ((bg != null) ? bg : "") + "x" + Color.RESET + " ");
+                System.out.print(color.toString() + ((bg != null) ? bg : "") + outputChar + Color.RESET + " ");
             }
         }
         System.out.println("\nX | " + "--".repeat(BOARD_SIZE - 1) + "-");
