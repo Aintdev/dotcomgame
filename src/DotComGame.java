@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class DotComGame {
@@ -46,8 +48,6 @@ public class DotComGame {
 
     static void main(String[] args) {
         JITWarmup();
-
-
         
         Scanner scanner = new Scanner(System.in);
         DotComGame game = new DotComGame(3, new String[]{"name.com", "dotcom.com", "arcane.com"});
@@ -138,7 +138,7 @@ public class DotComGame {
             boolean[][] tried = new boolean[BOARD_SIZE][BOARD_SIZE];
             int triedCount = 0;
             boolean notFound = true;
-            int length = DOTCOM_SIZE; // optimized anyway - this is just for the
+            final int length = DOTCOM_SIZE; // optimized anyway - this is just for the
                                         // future to add variable DotCom lengths.
             while (notFound) { // search for available space
                 Position pos = new Position(
@@ -154,7 +154,11 @@ public class DotComGame {
                 Position[] positions = null;
 
                 boolean found = false;
-                for (Direction dir : Direction.values()) {
+
+                Direction[] shuffledDirections = Direction.values(); // shuffled at next line
+                Collections.shuffle(Arrays.asList(shuffledDirections)); // Shuffle directions so, no direction is preferred.
+
+                for (Direction dir : shuffledDirections) {
                     positions = calculatePositions(pos, dir, length);
                     if (checkForSpace(positions)) {
                         found = true;
